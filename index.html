@@ -7,66 +7,71 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #ffe6f0;
+  height: 100vh;
   font-family: Arial, sans-serif;
   text-align: center;
-  height: 100vh;
+  background: linear-gradient(135deg, #ff9ac9, #ff4d94);
+  color: white;
   position: relative;
-}
-
-/* Floating hearts */
-.heart {
-  position: absolute;
-  color: #ff4d94;
-  font-size: 20px;
-  animation: floatUp 6s linear infinite;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(100vh); opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
 }
 
 h1 {
   margin-top: 80px;
+  font-size: 32px;
 }
 
+/* Buttons */
 button {
   padding: 15px 30px;
-  font-size: 18px;
+  font-size: 20px;
   border: none;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: all 0.2s ease;
   position: absolute;
+  transition: 0.2s;
 }
 
 #yesBtn {
-  background-color: #ff4d94;
-  color: white;
+  background: white;
+  color: #ff4d94;
   left: 35%;
-  top: 50%;
+  top: 55%;
 }
 
 #noBtn {
-  background-color: #ff99c2;
+  background: black;
   color: white;
   left: 55%;
-  top: 50%;
+  top: 55%;
 }
 
-/* Pop up message */
-.popup {
+/* Popup box */
+#popup {
   position: absolute;
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
   background: white;
-  padding: 15px 25px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  font-size: 20px;
+  color: #ff4d94;
+  padding: 20px 35px;
+  border-radius: 20px;
+  font-size: 22px;
+  font-weight: bold;
   display: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
 }
 </style>
 </head>
@@ -78,7 +83,7 @@ button {
 <button id="yesBtn" onclick="sayYes()">Yes 💖</button>
 <button id="noBtn">No 😢</button>
 
-<div id="popup" class="popup"></div>
+<div id="popup"></div>
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
@@ -92,64 +97,62 @@ let messages = [
   "You don’t have an option… Click Yes 😈"
 ];
 
-let msgIndex = 0;
+let index = 0;
 
-// Move No button + grow Yes
-function moveNoButton() {
-  let maxX = window.innerWidth - noBtn.offsetWidth;
-  let maxY = window.innerHeight - noBtn.offsetHeight;
-
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
-
-  let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-  yesBtn.style.fontSize = (currentSize + 5) + "px";
-  yesBtn.style.padding = "20px 45px";
-
-  showPopup();
-}
-
-// Popup logic (3 sec then disappear)
 function showPopup() {
-  popup.innerText = messages[msgIndex % messages.length];
+  popup.innerText = messages[index % messages.length];
   popup.style.display = "block";
 
   setTimeout(() => {
     popup.style.display = "none";
   }, 3000);
 
-  msgIndex++;
+  index++;
 }
 
-// Desktop
-noBtn.addEventListener("mouseenter", moveNoButton);
+function moveNo() {
+  let maxX = window.innerWidth - noBtn.offsetWidth;
+  let maxY = window.innerHeight - noBtn.offsetHeight;
 
-// Mobile
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+
+  // Grow YES button
+  let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
+  yesBtn.style.fontSize = (currentSize + 6) + "px";
+  yesBtn.style.padding = "25px 50px";
+
+  showPopup();
+}
+
+/* Works on desktop */
+noBtn.addEventListener("mouseenter", moveNo);
+
+/* Works on mobile */
 noBtn.addEventListener("touchstart", function(e){
   e.preventDefault();
-  moveNoButton();
+  moveNo();
 });
 
-// Safety click
+/* Safety */
 noBtn.addEventListener("click", function(e){
   e.preventDefault();
-  moveNoButton();
+  moveNo();
 });
 
-// Yes clicked
 function sayYes() {
   document.body.innerHTML = `
-    <h1 style="margin-top:100px;">Yayyy!! Happy Valentine’s Day ❤️🥰</h1>
-    <p style="font-size:22px; margin-top:20px;">
-      "Every love story is beautiful, but ours is my favorite." 💕
+    <h1 style="margin-top:120px;">Yayyy!! Happy Valentine’s Day ❤️🥰</h1>
+    <p style="font-size:24px; margin-top:25px;">
+      "Every moment with you feels like magic. I’m so lucky to have you." 💕
     </p>
   `;
 }
 
-// Generate floating hearts
-function createHearts() {
+/* Floating hearts */
+function createHeart() {
   const heart = document.createElement("div");
-  heart.classList.add("heart");
+  heart.className = "heart";
   heart.innerHTML = "❤️";
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.fontSize = (15 + Math.random() * 25) + "px";
@@ -160,7 +163,7 @@ function createHearts() {
   }, 6000);
 }
 
-setInterval(createHearts, 500);
+setInterval(createHeart, 400);
 </script>
 
 </body>
