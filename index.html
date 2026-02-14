@@ -24,14 +24,14 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   position: absolute;
 }
 
 #yesBtn {
   background-color: #ff4d94;
   color: white;
-  left: 40%;
+  left: 35%;
   top: 50%;
 }
 
@@ -55,14 +55,7 @@ button {
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 
-// When Yes is clicked
-function sayYes() {
-  document.body.innerHTML = "<h1 style='margin-top:100px;'>Yayyy!! Happy Valentine's Day ❤️🥰</h1>";
-}
-
-// Move No button when mouse gets near it
-noBtn.addEventListener("mouseenter", function() {
-
+function moveNoButton() {
   let maxX = window.innerWidth - noBtn.offsetWidth;
   let maxY = window.innerHeight - noBtn.offsetHeight;
 
@@ -72,11 +65,30 @@ noBtn.addEventListener("mouseenter", function() {
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
 
-  // Make Yes button bigger
+  // Grow Yes button
   let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-  yesBtn.style.fontSize = (currentSize + 4) + "px";
-  yesBtn.style.padding = "20px 40px";
+  yesBtn.style.fontSize = (currentSize + 5) + "px";
+  yesBtn.style.padding = "20px 45px";
+}
+
+// Desktop hover
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+// Mobile touch
+noBtn.addEventListener("touchstart", function(e) {
+  e.preventDefault();
+  moveNoButton();
 });
+
+// Extra safety: if somehow clicked
+noBtn.addEventListener("click", function(e) {
+  e.preventDefault();
+  moveNoButton();
+});
+
+function sayYes() {
+  document.body.innerHTML = "<h1 style='margin-top:100px;'>Yayyy!! Happy Valentine's Day ❤️🥰</h1>";
+}
 </script>
 
 </body>
