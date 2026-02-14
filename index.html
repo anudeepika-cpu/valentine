@@ -5,24 +5,30 @@
 <style>
 body {
   text-align: center;
-  background-color: #ffe6f0; /* softer pink */
+  background-color: #ffe6f0; /* soft Valentine pink */
   font-family: Arial, sans-serif;
   margin-top: 100px;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
 }
 
 button {
   padding: 15px 25px;
   font-size: 18px;
-  margin: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
   border: none;
   border-radius: 10px;
+  transition: all 0.3s ease;
+  position: absolute;
 }
 
 #yesBtn {
   background-color: #ff4d94;
   color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #noBtn {
@@ -37,38 +43,29 @@ button {
 <h1 id="question">Will you be my Valentine? ❤️</h1>
 
 <button id="yesBtn" onclick="sayYes()">Yes 💖</button>
-<button id="noBtn" onclick="sayNo()">No 😢</button>
+<button id="noBtn">No 😢</button>
 
 <script>
-var messages = [
-  "Are you sure? 😭",
-  "Think again... 🥺",
-  "I will cry 😢",
-  "Please don't break my heart 💔",
-  "Last chance... 😔"
-];
-
-var count = 0;
-
-function sayNo() {
-  // show playful messages
-  if (count < messages.length) {
-    document.getElementById("question").innerText = messages[count];
-    count++;
-  } else {
-    document.getElementById("question").innerText = "You can't escape! Click Yes 😈";
-  }
-
-  // grow the "Yes" button each time "No" is clicked
-  let yesBtn = document.getElementById("yesBtn");
-  let currentWidth = yesBtn.offsetWidth;
-  yesBtn.style.width = (currentWidth + 20) + "px"; // increase width
-  yesBtn.style.fontSize = (parseInt(window.getComputedStyle(yesBtn).fontSize) + 2) + "px"; // increase font
-}
+let yesBtn = document.getElementById("yesBtn");
+let noBtn = document.getElementById("noBtn");
 
 function sayYes() {
   document.body.innerHTML = "<h1>Yayyy!! Happy Valentine's Day ❤️🥰</h1>";
 }
+
+// Make the No button move randomly
+noBtn.addEventListener("mouseover", function() {
+  let x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  let y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50); // keep above bottom
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  // Make the Yes button bigger each time the No is hovered
+  let currentWidth = yesBtn.offsetWidth;
+  let currentFont = parseInt(window.getComputedStyle(yesBtn).fontSize);
+  yesBtn.style.width = (currentWidth + 20) + "px";
+  yesBtn.style.fontSize = (currentFont + 2) + "px";
+});
 </script>
 
 </body>
