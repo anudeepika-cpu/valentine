@@ -22,7 +22,7 @@ h1 {
 
 button {
   padding: 15px 30px;
-  font-size: 24px;
+  font-size: 22px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
@@ -57,6 +57,18 @@ button {
   font-weight: bold;
   display: none;
 }
+
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 9s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
 </style>
 </head>
 
@@ -84,32 +96,30 @@ let messages = [
 let index = 0;
 
 function moveNo() {
-
-  // Move No randomly
   let maxX = window.innerWidth - noBtn.offsetWidth;
   let maxY = window.innerHeight - noBtn.offsetHeight;
 
+  // Move No button randomly
   noBtn.style.left = Math.random() * maxX + "px";
   noBtn.style.top = Math.random() * maxY + "px";
 
-  // Increase Yes size clearly
+  // Increase Yes button size strongly
   let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
   yesBtn.style.fontSize = (currentSize + 12) + "px";
   yesBtn.style.padding = "40px 100px";
 
-  // Show question if available
+  // Show next question if exists
   if (index < messages.length) {
-
     popup.innerText = messages[index];
     popup.style.display = "block";
 
     setTimeout(() => {
       popup.style.display = "none";
-    }, 4000);  // visible 4 sec
+    }, 4000);
 
     index++;
 
-    // After last question remove No button
+    // After last question, hide No button
     if (index === messages.length) {
       setTimeout(() => {
         noBtn.style.display = "none";
@@ -124,6 +134,7 @@ noBtn.addEventListener("click", function(e){
   moveNo();
 });
 
+// Quote after clicking Yes
 function sayYes() {
   document.body.innerHTML = `
     <h1 style="margin-top:120px; font-size:46px;">
@@ -131,13 +142,28 @@ function sayYes() {
     </h1>
     <p style="font-size:28px; margin-top:35px;">
       Every moment with you feels happy and special,
-      and I am so happy having you in my life.
-      I love you, babe. 💕
+      and I am so happy having you in my life. I love you, babe. 💕
     </p>
   `;
 }
+
+// Floating hearts in background
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 25) + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 9000);
+}
+
+// Create hearts continuously
+setInterval(createHeart, 600);
 </script>
 
 </body>
 </html>
-
