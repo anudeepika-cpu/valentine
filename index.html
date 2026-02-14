@@ -22,12 +22,12 @@ h1 {
 
 button {
   padding: 15px 30px;
-  font-size: 22px;
+  font-size: 24px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
   position: absolute;
-  transition: 0.3s ease;
+  transition: 0.2s ease;
 }
 
 #yesBtn {
@@ -53,21 +53,9 @@ button {
   color: #ff3e8e;
   padding: 15px 25px;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   display: none;
-}
-
-.heart {
-  position: absolute;
-  bottom: -20px;
-  font-size: 20px;
-  animation: float 9s linear infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-110vh); opacity: 0; }
 }
 </style>
 </head>
@@ -94,59 +82,43 @@ let messages = [
 ];
 
 let index = 0;
-let canShowNext = true; // controls gap
-
-function showPopup() {
-
-  if (!canShowNext) return;
-  if (index >= messages.length) return;
-
-  canShowNext = false;
-
-  popup.innerText = messages[index];
-  popup.style.display = "block";
-
-  // popup visible 4 sec
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 4000);
-
-  index++;
-
-  // 18 sec gap before next question allowed
-  setTimeout(() => {
-    canShowNext = true;
-  }, 18000);
-
-  // If last question finished → remove NO button
-  if (index === messages.length) {
-    setTimeout(() => {
-      noBtn.style.display = "none";
-    }, 4000);
-  }
-}
 
 function moveNo() {
 
+  // Move No randomly
   let maxX = window.innerWidth - noBtn.offsetWidth;
   let maxY = window.innerHeight - noBtn.offsetHeight;
 
   noBtn.style.left = Math.random() * maxX + "px";
   noBtn.style.top = Math.random() * maxY + "px";
 
-  // Strong increase every time
+  // Increase Yes size clearly
   let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-  yesBtn.style.fontSize = (currentSize + 8) + "px";
-  yesBtn.style.padding = "35px 90px";
+  yesBtn.style.fontSize = (currentSize + 12) + "px";
+  yesBtn.style.padding = "40px 100px";
 
-  showPopup();
+  // Show question if available
+  if (index < messages.length) {
+
+    popup.innerText = messages[index];
+    popup.style.display = "block";
+
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 4000);  // visible 4 sec
+
+    index++;
+
+    // After last question remove No button
+    if (index === messages.length) {
+      setTimeout(() => {
+        noBtn.style.display = "none";
+      }, 4000);
+    }
+  }
 }
 
-noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("touchstart", function(e){
-  e.preventDefault();
-  moveNo();
-});
+noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", function(e){
   e.preventDefault();
   moveNo();
@@ -158,26 +130,11 @@ function sayYes() {
       Happy Valentine’s Day ❤️🥰
     </h1>
     <p style="font-size:30px; margin-top:35px;">
-      Every moment with you feels like peace, happiness,
-      and the best part of my life. 💕
+      Every moment with you feels like the happiest
+      chapter of my life. 💕
     </p>
   `;
 }
-
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (15 + Math.random() * 25) + "px";
-  document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 9000);
-}
-
-setInterval(createHeart, 700);
 </script>
 
 </body>
