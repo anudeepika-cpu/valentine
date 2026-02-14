@@ -5,16 +5,29 @@
 <style>
 body {
   text-align: center;
-  background-color: pink;
-  font-family: Arial;
+  background-color: #ffe6f0; /* softer pink */
+  font-family: Arial, sans-serif;
   margin-top: 100px;
 }
 
 button {
-  padding: 15px;
+  padding: 15px 25px;
   font-size: 18px;
   margin: 20px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 10px;
+}
+
+#yesBtn {
+  background-color: #ff4d94;
+  color: white;
+}
+
+#noBtn {
+  background-color: #ff99c2;
+  color: white;
 }
 </style>
 </head>
@@ -23,11 +36,10 @@ button {
 
 <h1 id="question">Will you be my Valentine? ❤️</h1>
 
-<button onclick="sayYes()">Yes 💖</button>
-<button onclick="sayNo()">No 😢</button>
+<button id="yesBtn" onclick="sayYes()">Yes 💖</button>
+<button id="noBtn" onclick="sayNo()">No 😢</button>
 
 <script>
-
 var messages = [
   "Are you sure? 😭",
   "Think again... 🥺",
@@ -39,20 +51,25 @@ var messages = [
 var count = 0;
 
 function sayNo() {
+  // show playful messages
   if (count < messages.length) {
     document.getElementById("question").innerText = messages[count];
     count++;
   } else {
     document.getElementById("question").innerText = "You can't escape! Click Yes 😈";
   }
+
+  // grow the "Yes" button each time "No" is clicked
+  let yesBtn = document.getElementById("yesBtn");
+  let currentWidth = yesBtn.offsetWidth;
+  yesBtn.style.width = (currentWidth + 20) + "px"; // increase width
+  yesBtn.style.fontSize = (parseInt(window.getComputedStyle(yesBtn).fontSize) + 2) + "px"; // increase font
 }
 
 function sayYes() {
   document.body.innerHTML = "<h1>Yayyy!! Happy Valentine's Day ❤️🥰</h1>";
 }
-
 </script>
 
 </body>
-
 </html>
