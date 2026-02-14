@@ -27,7 +27,7 @@ button {
   border-radius: 15px;
   cursor: pointer;
   position: absolute;
-  transition: 0.3s ease;
+  transition: 0.4s ease;
 }
 
 #yesBtn {
@@ -59,16 +59,27 @@ button {
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
+/* Floating hearts slower */
 .heart {
   position: absolute;
   bottom: -20px;
   font-size: 20px;
-  animation: float 10s linear infinite; /* slower hearts */
+  animation: float 14s linear infinite;
 }
 
 @keyframes float {
   0% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* Fade animation */
+.fade {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>
 </head>
@@ -102,7 +113,7 @@ function showPopup() {
 
   setTimeout(() => {
     popup.style.display = "none";
-  }, 5000); // NOW 5 seconds instead of 3
+  }, 8000);  // 8 seconds now
 
   index++;
 }
@@ -115,8 +126,8 @@ function moveNo() {
   noBtn.style.top = Math.random() * maxY + "px";
 
   let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-  yesBtn.style.fontSize = (currentSize + 4) + "px";
-  yesBtn.style.padding = "25px 55px";
+  yesBtn.style.fontSize = (currentSize + 3) + "px";
+  yesBtn.style.padding = "25px 60px";
 
   showPopup();
 }
@@ -132,16 +143,24 @@ noBtn.addEventListener("click", function(e){
 });
 
 function sayYes() {
-  document.body.innerHTML = `
-    <h1 style="margin-top:120px; font-size:38px;">
-      Yayyy!! Happy Valentine’s Day ❤️🥰
-    </h1>
-    <p style="font-size:26px; margin-top:30px;">
-      "From this day forward, my favorite place is next to you." 💕
-    </p>
-  `;
+
+  // Stop hearts by clearing body after delay
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <div class="fade">
+        <h1 style="margin-top:120px; font-size:40px;">
+          You just made my day ❤️🥰
+        </h1>
+        <p style="font-size:28px; margin-top:35px;">
+          "With you, every second feels special.
+          Today, tomorrow, and always." 💕
+        </p>
+      </div>
+    `;
+  }, 1500); // 1.5 second pause before showing
 }
 
+/* Slower floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -152,10 +171,10 @@ function createHeart() {
 
   setTimeout(() => {
     heart.remove();
-  }, 10000);
+  }, 14000);
 }
 
-setInterval(createHeart, 800); /* slower heart generation */
+setInterval(createHeart, 1200);
 </script>
 
 </body>
