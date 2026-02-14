@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Be My Valentine?</title>
+<style>
+body {
+  text-align: center;
+  background-color: pink;
+  font-family: Arial;
+  margin-top: 100px;
+}
+
+button {
+  padding: 15px;
+  font-size: 18px;
+  margin: 20px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question">Will you be my Valentine? ❤️</h1>
+
+<button onclick="sayYes()">Yes 💖</button>
+<button onclick="sayNo()">No 😢</button>
+
+<script>
+
+var messages = [
+  "Are you sure? 😭",
+  "Think again... 🥺",
+  "I will cry 😢",
+  "Please don't break my heart 💔",
+  "Last chance... 😔"
+];
+
+var count = 0;
+
+function sayNo() {
+  if (count < messages.length) {
+    document.getElementById("question").innerText = messages[count];
+    count++;
+  } else {
+    document.getElementById("question").innerText = "You can't escape! Click Yes 😈";
+  }
+}
+
+function sayYes() {
+  document.body.innerHTML = "<h1>Yayyy!! Happy Valentine's Day ❤️🥰</h1>";
+}
+
+</script>
+
+</body>
+</html>
