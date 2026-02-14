@@ -59,7 +59,6 @@ button {
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* Floating hearts slower */
 .heart {
   position: absolute;
   bottom: -20px;
@@ -72,7 +71,6 @@ button {
   100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Fade animation */
 .fade {
   animation: fadeIn 2s ease-in-out;
 }
@@ -108,17 +106,24 @@ let messages = [
 let index = 0;
 
 function showPopup() {
-  popup.innerText = messages[index % messages.length];
+
+  // Stop after all messages shown once
+  if (index >= messages.length) {
+    return;
+  }
+
+  popup.innerText = messages[index];
   popup.style.display = "block";
 
   setTimeout(() => {
     popup.style.display = "none";
-  }, 8000);  // 8 seconds now
+  }, 7000); // stays 7 seconds
 
   index++;
 }
 
 function moveNo() {
+
   let maxX = window.innerWidth - noBtn.offsetWidth;
   let maxY = window.innerHeight - noBtn.offsetHeight;
 
@@ -144,23 +149,21 @@ noBtn.addEventListener("click", function(e){
 
 function sayYes() {
 
-  // Stop hearts by clearing body after delay
   setTimeout(() => {
     document.body.innerHTML = `
       <div class="fade">
         <h1 style="margin-top:120px; font-size:40px;">
-          You just made my day ❤️🥰
+          Happy Valentine’s Day ❤️🥰
         </h1>
         <p style="font-size:28px; margin-top:35px;">
-          "With you, every second feels special.
-          Today, tomorrow, and always." 💕
+          Every moment with you feels happy, warm,
+          and beautifully special. 💕
         </p>
       </div>
     `;
-  }, 1500); // 1.5 second pause before showing
+  }, 1200);
 }
 
-/* Slower floating hearts */
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
